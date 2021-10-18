@@ -184,12 +184,13 @@ public class LKLPayActivity extends Activity {
                         // if (reason != null) {
                             // mShow.setText(reason);
                         // }
-                        mShow.setText("支付失败");
+                        // mShow.setText("支付失败");
                         break;
                     case Activity.RESULT_OK:
                         mShow.setText("支付成功");
                         break;
                     }
+                    super.onActivityResult(requestCode, resultCode, data);
 
             }
         }catch (Exception e) {
