@@ -219,7 +219,6 @@ public class LKLPayActivity extends Activity {
                         break;
                     }
 
-// super.onActivityResult(requestCode, resultCode, data);
             }
         }catch (Exception e) {
             mShow.setText(e.getMessage());
