@@ -94,29 +94,17 @@ public class LKLPayActivity extends Activity {
 
     // 银盛正扫和反扫
     public void yinshengPay() {
-
-        int transType = this.yinshengBundle.getInt("transType");
-
-//        mShow.setText(String.valueOf(transType));
-//        String amount = this.yinshengBundle.getString("amount", "0");
- 
         try {
-
+            int transType = this.yinshengBundle.getInt("transType");
             Intent intent = new Intent();
             intent.setAction("com.ys.smartpos.pay.sdk");
             intent.putExtra("transType", transType);
-//            intent.putExtra("amount", Long.parseLong(amount));
             intent.putExtra("amount", (long)this.yinshengBundle.getInt("amount"));
             intent.putExtra("transAction", 1);
             intent.putExtra("orderBelongTo", this.yinshengBundle.getString("orderBelongTo"));
             intent.putExtra("orderId", this.yinshengBundle.getString("orderId"));// 客户订单号最大长度20
-            // intent.putExtra("printContent",
-            // this.yinshengBundle.getString("createOrderRemark"));
             intent.putExtra("syncFlag", "1");
-            // intent.putExtra("notify_url", this.yinshengBundle.getString("notify_url"));
-            //mShow.setText("开始调用银盛支付" + "transType=" + transType + ",amount=" + (long)this.yinshengBundle.getInt("amount")+ ",orderBelongTo=" + this.yinshengBundle.getString("orderBelongTo") + ",orderId=" + this.yinshengBundle.getString("orderId"));
             startActivityForResult(intent, transType);
-
         } catch (Exception e) {
             mShow.setText(e.getMessage());
         }
@@ -125,10 +113,6 @@ public class LKLPayActivity extends Activity {
 
     // 南京
     public void nanjingPay() {
-
-        // int transType = this.nanjingBundle.getInt("transType");
-
- 
         try {
             Intent intent = new Intent(); intent.setComponent(new ComponentName("cn.unionpay.national.njcbemv","cn.unionpay.national.njcbemv. MainActivity "));
             intent.putExtra("transName", "消费");
@@ -194,7 +178,7 @@ public class LKLPayActivity extends Activity {
                         break;
                 }
             } else if (nanjingBundle != null) {
-                String reason = data.getStringExtra("reason");
+                String reason = data.getExtras().getString("reason");
                 switch(resultCode) {
                     case Activity.RESULT_CANCELED:
                         if (reason != null) {
