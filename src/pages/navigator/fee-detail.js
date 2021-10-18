@@ -209,7 +209,7 @@ class FeeDetailPage extends BasePage {
                   out_trade_no: res.out_trade_no,
                 });
                 let posType = res.posType;
-                UDToast.showInfo(posType);
+                // UDToast.showInfo(posType);
                 if (posType === '南京银行') {
                   NativeModules.LHNToast.startActivityFromJS(
                     'com.statistics.LKLPayActivity',
