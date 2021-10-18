@@ -126,7 +126,7 @@ public class LKLPayActivity extends Activity {
     // 南京
     public void nanjingPay() {
 
-        int transType = this.yinshengBundle.getInt("transType");
+        int transType = this.nanjingBundle.getInt("transType");
 
  
         try {
