@@ -159,23 +159,9 @@ public class LKLPayActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         try {
             if (bundle != null) {
-//                // 应答码
-//                String msg_tp = data.getExtras().getString("msg_tp");
-//                // 检索参考号
-//                String refernumber = data.getExtras().getString("refernumber");
-//                // 订单号
-//                String order_no = data.getExtras().getString("order_no");
-//                // 批次流水号
-//                String batchbillno = data.getExtras().getString("batchbillno");
-                // 失败原因
+
                 String reason = data.getExtras().getString("reason");
-//                // 时间戳
-//                String time = data.getExtras().getString("time_stamp");
-//                // 附加数据
-//                String addword = data.getExtras().getString("adddataword");
-//                // 交易详情
-//                TransactionEntity transactionEntity = gson.fromJson(data.getExtras().getString("txndetail"),
-//                        TransactionEntity.class);
+
                 switch (resultCode) {
                     // 支付成功
                     case Activity.RESULT_OK:
@@ -208,6 +194,7 @@ public class LKLPayActivity extends Activity {
                         break;
                 }
             } else if (nanjingBundle != null) {
+                String reason = data.getStringExtra("reason");
                 switch(resultCode) {
                     case Activity.RESULT_CANCELED:
                         if (reason != null) {
