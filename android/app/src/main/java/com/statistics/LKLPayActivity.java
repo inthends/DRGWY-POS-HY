@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 public class LKLPayActivity extends Activity {
     private Bundle bundle;
     private Bundle yinshengBundle;
+    private Bundle nanjingBundle;
     private Button button;
     // 交易金额
     // private EditText mMoneyEt;
@@ -45,12 +46,16 @@ public class LKLPayActivity extends Activity {
             case "威富通": {
                 this.bundle = bu;
                 lakalaPay();
-
                 break;
             }
             case "银盛": {
                 this.yinshengBundle = bu;
                 yinshengPay();
+                break;
+            }
+            case "南京银行": {
+                this.nanjingBundle = bu;
+                nanjingPay();
                 break;
             }
         } 
@@ -112,6 +117,23 @@ public class LKLPayActivity extends Activity {
             //mShow.setText("开始调用银盛支付" + "transType=" + transType + ",amount=" + (long)this.yinshengBundle.getInt("amount")+ ",orderBelongTo=" + this.yinshengBundle.getString("orderBelongTo") + ",orderId=" + this.yinshengBundle.getString("orderId"));
             startActivityForResult(intent, transType);
 
+        } catch (Exception e) {
+            mShow.setText(e.getMessage());
+        }
+    }
+
+
+    // 南京
+    public void nanjingPay() {
+
+        int transType = this.yinshengBundle.getInt("transType");
+
+ 
+        try {
+            Intent intent = new Intent(); intent.setComponent(new ComponentName("cn.unionpay.national.njcbemv","cn.unionpay.national.njcbemv. MainActivity "));
+            intent.putExtra("transName", "消费");
+            intent.putExtra("amount", String.valueOf(this.nanjingBundle.getInt("amount")));
+            startActivityForResult(intent, 0);
         } catch (Exception e) {
             mShow.setText(e.getMessage());
         }
