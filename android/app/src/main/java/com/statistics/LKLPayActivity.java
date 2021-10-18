@@ -178,12 +178,13 @@ public class LKLPayActivity extends Activity {
                         break;
                 }
             } else if (nanjingBundle != null) {
-                String reason = data.getExtras().getString("reason");
+                // String reason = data.getExtras().getString("reason");
                 switch(resultCode) {
                     case Activity.RESULT_CANCELED:
-                        if (reason != null) {
-                            mShow.setText(reason);
-                        }
+                        // if (reason != null) {
+                            // mShow.setText(reason);
+                        // }
+                        mShow.setText("支付失败");
                         break;
                     case Activity.RESULT_OK:
                         mShow.setText("支付成功");
