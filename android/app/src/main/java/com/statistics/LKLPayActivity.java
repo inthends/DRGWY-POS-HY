@@ -207,6 +207,19 @@ public class LKLPayActivity extends Activity {
                         mShow.setText("支付失败");
                         break;
                 }
+            } else if (nanjingBundle != null) {
+                switch(resultCode) {
+                    case Activity.RESULT_CANCELED:
+                        if (reason != null) {
+                            mShow.setText(reason);
+                        }
+                        break;
+                    case Activity.RESULT_OK:
+                        mShow.setText("支付成功");
+                        break;
+                    }
+
+// super.onActivityResult(requestCode, resultCode, data);
             }
         }catch (Exception e) {
             mShow.setText(e.getMessage());
