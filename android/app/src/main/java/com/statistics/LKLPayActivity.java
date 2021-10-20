@@ -115,8 +115,7 @@ public class LKLPayActivity extends Activity {
             Intent intent = new Intent(); 
             intent.setComponent(new ComponentName("cn.unionpay.national.njcbemv","cn.unionpay.national.njcbemv.MainActivity"));
             intent.putExtra("transName", "消费");
-            // intent.putExtra("amount", String.format("%012d", this.nanjingBundle.getInt("amount")));
-            intent.putExtra("amount", "000000000001");
+            intent.putExtra("amount", nanjingBundle.getString("amount"));
             startActivityForResult(intent, 19);
         } catch (Exception e) {
             mShow.setText(e.getMessage());
