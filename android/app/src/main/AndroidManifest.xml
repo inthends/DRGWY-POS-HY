@@ -45,8 +45,8 @@
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity"/>
         <activity android:name=".LKLPayActivity"/>
         <activity android:name=".LHNPrintActivity"/>
-        <activity  android:name="cn.unionpay.national.bankcard"/>
-        <activity  android:name="cn.unionpay.national.bankcard.MainActivity"/>
+        <activity  android:name="cn.unionpay.national.njcbemv"/>
+        <activity  android:name="cn.unionpay.national.njcbemv.MainActivity"/>
 
 
         <service android:name="com.ys.serviceapi.stub.ClientDeviceService">
