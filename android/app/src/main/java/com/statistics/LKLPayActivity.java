@@ -73,8 +73,6 @@ public class LKLPayActivity extends Activity {
 
             }
         });
-
-
     }
 
     private void initData() { 
@@ -115,9 +113,11 @@ public class LKLPayActivity extends Activity {
     public void nanjingPay() {
         try {
             Intent intent = new Intent(); 
-            intent.setComponent(new ComponentName("cn.unionpay.national.bankcard","cn.unionpay.national.bankcard.MainActivity"));
+            intent.setComponent(new ComponentName("cn.unionpay.national.njcbemv","cn.unionpay.national.njcbemv.MainActivity"));
             intent.putExtra("transName", "消费");
-            intent.putExtra("amount", String.valueOf(this.nanjingBundle.getInt("amount")));
+            // intent.putExtra("amount", String.valueOf(this.nanjingBundle.getInt("amount")));
+            intent.putExtra("amount", String.format("%012d", this.nanjingBundle.getInt("amount")));
+            
             startActivityForResult(intent, 198);
         } catch (Exception e) {
             mShow.setText(e.getMessage());
