@@ -115,10 +115,9 @@ public class LKLPayActivity extends Activity {
             Intent intent = new Intent(); 
             intent.setComponent(new ComponentName("cn.unionpay.national.njcbemv","cn.unionpay.national.njcbemv.MainActivity"));
             intent.putExtra("transName", "消费");
-            // intent.putExtra("amount", String.valueOf(this.nanjingBundle.getInt("amount")));
-            intent.putExtra("amount", String.format("%012d", this.nanjingBundle.getInt("amount")));
-            
-            startActivityForResult(intent, 198);
+            // intent.putExtra("amount", String.format("%012d", this.nanjingBundle.getInt("amount")));
+            intent.putExtra("amount", "000000000001");
+            startActivityForResult(intent, 19);
         } catch (Exception e) {
             mShow.setText(e.getMessage());
         }
@@ -181,13 +180,12 @@ public class LKLPayActivity extends Activity {
                         break;
                 }
             } else if (nanjingBundle != null) {
-                // String reason = data.getExtras().getString("reason");
                 switch(resultCode) {
                     case Activity.RESULT_CANCELED:
-                        // if (reason != null) {
-                            // mShow.setText(reason);
-                        // }
-                        // mShow.setText("支付失败");
+                        String reason = data.getStringExtra("reason");
+                        if (reason != null) {
+                            mShow.setText(reason);
+                        }
                         break;
                     case Activity.RESULT_OK:
                         mShow.setText("支付成功");
