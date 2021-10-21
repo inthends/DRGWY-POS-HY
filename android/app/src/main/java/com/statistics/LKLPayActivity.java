@@ -114,8 +114,9 @@ public class LKLPayActivity extends Activity {
         try {
             Intent intent = new Intent(); 
             intent.setComponent(new ComponentName("cn.unionpay.national.njcbemv","cn.unionpay.national.njcbemv.MainActivity"));
-            intent.putExtra("transName", "消费");
-            intent.putExtra("amount", nanjingBundle.getString("amount"));
+            intent.putExtra("transName", this.nanjingBundle.getString('transName'));
+            intent.putExtra("scanCodeData", this.nanjingBundle.getString('scanCodeData'));
+            intent.putExtra("amount", String.format("%012d", this.nanjingBundle.getInt("amount")));
             startActivityForResult(intent, 19);
         } catch (Exception e) {
             mShow.setText(e.getMessage());
@@ -188,6 +189,9 @@ public class LKLPayActivity extends Activity {
                         break;
                     case Activity.RESULT_OK:
                         mShow.setText("支付成功");
+                        WritableMap map = Arguments.createMap();
+                        map.putString('traceNo',data.getStringExtra("traceNo"));
+                        LHNToast.sendEventAndDataToRn("nanjingCallback",map);
                         break;
                     }
                 super.onActivityResult(requestCode, resultCode, data);

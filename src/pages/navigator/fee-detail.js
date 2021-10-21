@@ -140,6 +140,12 @@ class FeeDetailPage extends BasePage {
       this.onRefresh();
       this.printInfo(this.state.out_trade_no);
     });
+    this.nanjingCallbackListener = DeviceEventEmitter.addListener(
+      'nanjingCallback',
+      (params) => {
+        NavigatorService.nanjingNotify(this.state.out_trade_no, params.traceNo);
+      },
+    );
 
     this.viewDidAppear = this.props.navigation.addListener(
       'didFocus',
@@ -178,6 +184,7 @@ class FeeDetailPage extends BasePage {
   componentWillUnmount(): void {
     this.viewDidAppear.remove();
     this.needPrintListener.remove();
+    this.nanjingCallbackListener.remove();
   }
 
   callBack = (out_trade_no) => {
@@ -215,6 +222,8 @@ class FeeDetailPage extends BasePage {
                     'com.statistics.LKLPayActivity',
                     {
                       ...res,
+                      transName: '消费',
+                      scanCodeData: '',
                     },
                   );
                 } else {
@@ -276,6 +285,20 @@ class FeeDetailPage extends BasePage {
                   callBack: this.callBack,
                   printAgain: false,
                 });
+              } else if (posType === '南京银行') {
+                this.props.navigation.push('scanForHome', {
+                  needBack: true,
+                  callBack: (scanCodeData) => {
+                    NativeModules.LHNToast.startActivityFromJS(
+                      'com.statistics.LKLPayActivity',
+                      {
+                        ...res,
+                        transName: '扫码付被扫',
+                        scanCodeData,
+                      },
+                    );
+                  },
+                });
               }
             },
           );
@@ -328,6 +351,15 @@ class FeeDetailPage extends BasePage {
                     },
                   );
                 });
+              } else if (posType === '南京银行') {
+                NativeModules.LHNToast.startActivityFromJS(
+                  'com.statistics.LKLPayActivity',
+                  {
+                    ...res,
+                    transName: '扫码付主扫',
+                    scanCodeData: '',
+                  },
+                );
               }
             },
           );
