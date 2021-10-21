@@ -1,10 +1,10 @@
 import React from 'react';
 import { Dimensions, DeviceEventEmitter } from 'react-native';
 import {
-    createBottomTabNavigator,
-    createAppContainer,
-    createStackNavigator,
-    createDrawerNavigator,
+  createBottomTabNavigator,
+  createAppContainer,
+  createStackNavigator,
+  createDrawerNavigator,
 } from 'react-navigation';
 import BuildingPage from '../building/building';
 //import WorkPage from '../work/work';
@@ -45,7 +45,7 @@ import ScanScreen from '../navigator/qrcode-scanner';
 // import EweixiuDetailPage from '../navigator/estate/estate-weixiu-detail';
 // import EstateWeixiuPage from '../navigator/estate/estate-weixiu';
 // import EstateTousuPage from '../navigator/estate/estate-tousu';
-// import ScanOnly from '../navigator/ScanOnly';
+import ScanOnly from '../navigator/ScanOnly';
 // import ScanSS from '../navigator/scan-ss';
 // import XunJianPage from '../navigator/xunjian/xunjian';
 // import TaskPage from '../navigator/xunjian/task';
@@ -87,45 +87,46 @@ import { ActionSheet } from '@ant-design/react-native';
 import ManualAction from '../../utils/store/actions/manual-action';
 import MineService from '../mine/mine-service';
 
-const BuildingNavigator = createStackNavigator({
+const BuildingNavigator = createStackNavigator(
+  {
     Building: {
-        screen: BuildingPage,
-        // navigationOptions: (navigation) => ({
-        //     title: '上门收费',
-        //headerBackTitle: null,
-        //header: null,
-        // }),
+      screen: BuildingPage,
+      // navigationOptions: (navigation) => ({
+      //     title: '上门收费',
+      //headerBackTitle: null,
+      //header: null,
+      // }),
     },
     feeBuildings: FeeBuildingsPage,
-    feeRooms: FeeRoomsPage,//房间
-    feeParkings: FeeParkingsPage,//车位
+    feeRooms: FeeRoomsPage, //房间
+    feeParkings: FeeParkingsPage, //车位
     //SecondDetail: SecondDetailBuildingPage,
     //DetailBuilding: DetailBuildingPage,
     //Buildings: BuildingsPage,
     //Home: HomePage,
     // yiqing: YiQingPage,
     // yiqinginfo: YiQingInfoPage,
-    // scanForHome: ScanOnly,
+    scanForHome: ScanOnly,
     //newsList: NewsList,
     scan: ScanScreen,
     charge: FeeChargeDetail,
     feeAdd: FeeAddPage,
     feeDetail: FeeDetailPage,
     //louDetail: LouDetail,
-
-}, {
-
+  },
+  {
     containerOptions: (options) => {
-        const { navigation } = options;
-        DeviceEventEmitter.emit('currentNavigation', navigation);
-        return {
-            options,
-        };
+      const { navigation } = options;
+      DeviceEventEmitter.emit('currentNavigation', navigation);
+      return {
+        options,
+      };
     },
-});
+  },
+);
 
 BuildingNavigator.navigationOptions = ({ navigation }) => ({
-    tabBarVisible: navigation.state.index === 0,
+  tabBarVisible: navigation.state.index === 0,
 });
 
 // const navigatorNavigator = createStackNavigator({
@@ -224,7 +225,6 @@ BuildingNavigator.navigationOptions = ({ navigation }) => ({
 //     Task: TaskListPage,
 //     newsList: NewsList,
 
-
 // });
 // WorkNavigator.navigationOptions = ({ navigation }) => ({
 //     tabBarVisible: navigation.state.index === 0,
@@ -249,8 +249,8 @@ BuildingNavigator.navigationOptions = ({ navigation }) => ({
 //     tabBarVisible: navigation.state.index === 0,
 // });
 
-const tabbar = createBottomTabNavigator({
-
+const tabbar = createBottomTabNavigator(
+  {
     // Mine: {
     //     screen: MineNavigator,
     //     navigationOptions: () => ({
@@ -260,33 +260,30 @@ const tabbar = createBottomTabNavigator({
     // },
 
     Building: {
-        screen: BuildingNavigator,
-        navigationOptions: () => ({
-            title: '退出登录',
-            //tab点击回调事件
-            tabBarOnPress: () => {
-                //弹出退出 
-                const BUTTONS = [
-                    '确定',
-                    '取消',
-                ];
-                ActionSheet.showActionSheetWithOptions(
-                    {
-                        title: '您确认要退出？',
-                        //message: '您确认要退出？',
-                        options: BUTTONS,
-                        cancelButtonIndex: 1,
-                        destructiveButtonIndex: -1,
-                    },
-                    buttonIndex => {
-                        if (buttonIndex === 0) {
-                            MineService.logout();
-                            ManualAction.saveTokenByStore(null);
-                        }
-                    },
-                );
-            }
-        })
+      screen: BuildingNavigator,
+      navigationOptions: () => ({
+        title: '退出登录',
+        //tab点击回调事件
+        tabBarOnPress: () => {
+          //弹出退出
+          const BUTTONS = ['确定', '取消'];
+          ActionSheet.showActionSheetWithOptions(
+            {
+              title: '您确认要退出？',
+              //message: '您确认要退出？',
+              options: BUTTONS,
+              cancelButtonIndex: 1,
+              destructiveButtonIndex: -1,
+            },
+            (buttonIndex) => {
+              if (buttonIndex === 0) {
+                MineService.logout();
+                ManualAction.saveTokenByStore(null);
+              }
+            },
+          );
+        },
+      }),
     },
 
     // Navigator: {
@@ -305,7 +302,6 @@ const tabbar = createBottomTabNavigator({
     //     }),
     // },
 
-
     // Work: {
     //     screen: WorkNavigator,
     //     navigationOptions: () => ({
@@ -320,93 +316,90 @@ const tabbar = createBottomTabNavigator({
     //         headerBackTitle: null,
     //     }),
     // },
+  },
 
-},
+  {
+    tabBarOptions: {
+      // showIcon: false,
+      activeTintColor: '#2491C4',
+      inactiveTintColor: '#6F757C',
+      //设置整个tabbar的样式(背景颜色、高)
+      // style: { backgroundColor: '#f5f4f9', height: 50 },
+      style: { height: 40 },
+      labelStyle: {
+        fontSize: 20,
+      },
+      //tabStyle: {
+      // padding:1
+      //},
+    },
 
-    {
+    //defaultNavigationOptions: ({ navigation }) => {
+    //if (navigation.isFocused()) {
+    //DeviceEventEmitter.emit('currentNavigation', navigation);
+    //}
 
-        tabBarOptions: {
-            // showIcon: false,
-            activeTintColor: '#2491C4',
-            inactiveTintColor: '#6F757C', 
-            //设置整个tabbar的样式(背景颜色、高)
-            // style: { backgroundColor: '#f5f4f9', height: 50 },
-            style: { height: 40 },
-            labelStyle: {
-                fontSize: 20
-            },
-            //tabStyle: {
-            // padding:1
-            //},
-
-        },
-
-        //defaultNavigationOptions: ({ navigation }) => {  
-        //if (navigation.isFocused()) {
-        //DeviceEventEmitter.emit('currentNavigation', navigation); 
-        //}
-
-        // return { 
-        //     tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        //         const { routeName } = navigation.state;
-        //         let imageUrl;
-        //         if (routeName === 'Building') {
-        //             if (focused) {
-        //                 imageUrl = require('../../static/images/tabbar/ly_h.png');
-        //             } else {
-        //                 imageUrl = require('../../static/images/tabbar/ly_n.png');
-        //             }
-        //         } else if (routeName === 'Navigator') {
-        //             if (focused) {
-        //                 imageUrl = require('../../static/images/tabbar/dh_h.png');
-        //             } else {
-        //                 imageUrl = require('../../static/images/tabbar/dh_n.png');
-        //             }
-        //         } else if (routeName === 'Work') {
-        //             if (focused) {
-        //                 imageUrl = require('../../static/images/tabbar/gz_h.png');
-        //             } else {
-        //                 imageUrl = require('../../static/images/tabbar/gz_n.png');
-        //             }
-        //         } else {
-        //             if (focused) {
-        //                 imageUrl = require('../../static/images/tabbar/me_h.png');
-        //             } else {
-        //                 imageUrl = require('../../static/images/tabbar/me_n.png');
-        //             }
-        //         }
-        //         // You can return any component that you like here!
-        //         return <Image
-        //             style={{ width: 15, height: 18 }}
-        //             source={imageUrl}
-        //         />;
-        //     },
-        // };
-        //}
-
-    });
-
+    // return {
+    //     tabBarIcon: ({ focused, horizontal, tintColor }) => {
+    //         const { routeName } = navigation.state;
+    //         let imageUrl;
+    //         if (routeName === 'Building') {
+    //             if (focused) {
+    //                 imageUrl = require('../../static/images/tabbar/ly_h.png');
+    //             } else {
+    //                 imageUrl = require('../../static/images/tabbar/ly_n.png');
+    //             }
+    //         } else if (routeName === 'Navigator') {
+    //             if (focused) {
+    //                 imageUrl = require('../../static/images/tabbar/dh_h.png');
+    //             } else {
+    //                 imageUrl = require('../../static/images/tabbar/dh_n.png');
+    //             }
+    //         } else if (routeName === 'Work') {
+    //             if (focused) {
+    //                 imageUrl = require('../../static/images/tabbar/gz_h.png');
+    //             } else {
+    //                 imageUrl = require('../../static/images/tabbar/gz_n.png');
+    //             }
+    //         } else {
+    //             if (focused) {
+    //                 imageUrl = require('../../static/images/tabbar/me_h.png');
+    //             } else {
+    //                 imageUrl = require('../../static/images/tabbar/me_n.png');
+    //             }
+    //         }
+    //         // You can return any component that you like here!
+    //         return <Image
+    //             style={{ width: 15, height: 18 }}
+    //             source={imageUrl}
+    //         />;
+    //     },
+    // };
+    //}
+  },
+);
 
 const { width } = Dimensions.get('window');
 
-const Drawer = createDrawerNavigator({
+const Drawer = createDrawerNavigator(
+  {
     TabBar: {
-        screen: tabbar,//BuildingNavigator
-        navigationOptions: {
-            header: null,
-        },
+      screen: tabbar, //BuildingNavigator
+      navigationOptions: {
+        header: null,
+      },
     },
-},
-    {
-        drawerPosition: 'left',
-        drawerWidth: width * 0.8,
-        drawerLockMode: 'locked-closed',
-        useNativeAnimations: true,
-        overlayColor: '#000000b3',
-        contentComponent: props => {
-            return <ManagerBuildingPage {...props} />;
-        },
-    });
-
+  },
+  {
+    drawerPosition: 'left',
+    drawerWidth: width * 0.8,
+    drawerLockMode: 'locked-closed',
+    useNativeAnimations: true,
+    overlayColor: '#000000b3',
+    contentComponent: (props) => {
+      return <ManagerBuildingPage {...props} />;
+    },
+  },
+);
 
 export default createAppContainer(Drawer);
