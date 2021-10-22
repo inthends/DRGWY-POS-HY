@@ -143,6 +143,7 @@ class FeeDetailPage extends BasePage {
     this.nanjingCallbackListener = DeviceEventEmitter.addListener(
       'nanjingCallback',
       (params) => {
+        //NativeModules.LHNToast.show(JSON.stringify(params || {}), 1000);
         NavigatorService.nanjingNotify(this.state.out_trade_no, params.traceNo);
       },
     );
