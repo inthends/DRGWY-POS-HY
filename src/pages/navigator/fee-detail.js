@@ -218,6 +218,9 @@ class FeeDetailPage extends BasePage {
                 let posType = res.posType;
                 // UDToast.showInfo(posType);
                 if (posType === '南京银行') {
+                  this.setState({
+                    nanjingRes: res,
+                  });
                   NativeModules.LHNToast.startActivityFromJS(
                     'com.statistics.LKLPayActivity',
                     {
@@ -246,7 +249,6 @@ class FeeDetailPage extends BasePage {
           NavigatorService.createOrder(ids, isML, mlType, mlScale).then(
             (res) => {
               let posType = res.posType;
-
               if (posType === '银盛') {
                 if (!this.state.isYse) {
                   // 只有是银盛pos机才能扫码和收款码
@@ -286,6 +288,9 @@ class FeeDetailPage extends BasePage {
                   printAgain: false,
                 });
               } else if (posType === '南京银行') {
+                this.setState({
+                  nanjingRes: res,
+                });
                 this.props.navigation.push('scanForHome', {
                   needBack: true,
                   callBack: (scanCodeData) => {
@@ -352,6 +357,9 @@ class FeeDetailPage extends BasePage {
                   );
                 });
               } else if (posType === '南京银行') {
+                this.setState({
+                  nanjingRes: res,
+                });
                 NativeModules.LHNToast.startActivityFromJS(
                   'com.statistics.LKLPayActivity',
                   {
