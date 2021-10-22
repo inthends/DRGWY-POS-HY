@@ -208,7 +208,7 @@ public class LHNToast extends ReactContextBaseJavaModule {
     }
     public static void sendEventAndDataToRn(String eventName, String traceNo) {
         WritableMap map = Arguments.createMap();
-        map.putString('traceNo',traceNo);
+        map.putString("traceNo",traceNo);
         myContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, map);
     }
 
