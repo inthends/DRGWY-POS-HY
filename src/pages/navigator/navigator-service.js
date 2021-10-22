@@ -247,7 +247,7 @@ export default {
     return api.getData('/api/MobileMethod/MGetPrintInfo', { out_trade_no });
   },
   nanjingNotify(out_trade_no, traceNo) {
-    return api.getData('/api/MobileMethod/NJPayNotify', {
+    return api.postData('/api/MobileMethod/NJPayNotify', {
       out_trade_no,
       traceNo,
       result: true,
