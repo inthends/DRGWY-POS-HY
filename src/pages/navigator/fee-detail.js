@@ -155,10 +155,12 @@ class FeeDetailPage extends BasePage {
     this.nanjingCallbackListener = DeviceEventEmitter.addListener(
       'nanjingCallback',
       (params) => {
-        NativeModules.LHNToast.show(params.traceNo);
+        NativeModules.LHNToast.show(
+          this.state.nanjingRes.out_trade_no + ' *** ' + params.traceNo,
+        );
         NativeModules.LHNToast;
         NavigatorService.nanjingNotify(
-          this.state.out_trade_no,
+          this.state.nanjingRes.out_trade_no,
           params.traceNo,
         ).then((res) => {
           NativeModules.LHNToast.show('结束南京请求');
