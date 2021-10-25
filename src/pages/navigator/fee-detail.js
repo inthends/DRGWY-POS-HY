@@ -159,7 +159,9 @@ class FeeDetailPage extends BasePage {
           this.state.nanjingRes.out_trade_no,
           params.traceNo,
           params.payChannel,
-        );
+        ).then((res) => {
+          this.onRefresh();
+        });
       },
     );
 
@@ -314,7 +316,7 @@ class FeeDetailPage extends BasePage {
                       'com.statistics.LKLPayActivity',
                       {
                         ...res,
-                        transName: '二维码主扫',
+                        transName: '二维码被扫',
                         scanCodeData,
                       },
                     );
@@ -380,7 +382,7 @@ class FeeDetailPage extends BasePage {
                   'com.statistics.LKLPayActivity',
                   {
                     ...res,
-                    transName: '扫码付主扫',
+                    transName: '二维码主扫',
                     scanCodeData: '',
                   },
                 );
