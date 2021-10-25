@@ -312,14 +312,15 @@ class FeeDetailPage extends BasePage {
                 this.props.navigation.push('scanForHome', {
                   needBack: true,
                   callBack: (scanCodeData) => {
-                    NativeModules.LHNToast.startActivityFromJS(
-                      'com.statistics.LKLPayActivity',
-                      {
-                        ...res,
-                        transName: '二维码被扫',
-                        scanCodeData,
-                      },
-                    );
+                    UDToast.showInfo(scanCodeData);
+                    // NativeModules.LHNToast.startActivityFromJS(
+                    //   'com.statistics.LKLPayActivity',
+                    //   {
+                    //     ...res,
+                    //     transName: '二维码被扫',
+                    //     scanCodeData,
+                    //   },
+                    // );
                   },
                 });
               }
@@ -399,7 +400,6 @@ class FeeDetailPage extends BasePage {
             [
               {
                 text: '取消',
-                //onPress: () => console.log('Cancel Pressed'),
                 style: 'cancel',
               },
               {

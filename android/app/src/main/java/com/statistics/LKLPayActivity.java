@@ -119,7 +119,6 @@ public class LKLPayActivity extends Activity {
             intent.putExtra("amount", String.format("%012d", this.nanjingBundle.getInt("amount")));
             if ( this.nanjingBundle.getString("transName").equals("打印")) {
                 startActivityForResult(intent, 1);
-
             } else {
                 startActivityForResult(intent, 2);
             }
