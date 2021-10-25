@@ -117,7 +117,12 @@ public class LKLPayActivity extends Activity {
             intent.putExtra("transName", this.nanjingBundle.getString("transName"));
             intent.putExtra("scanCodeData", this.nanjingBundle.getString("scanCodeData"));
             intent.putExtra("amount", String.format("%012d", this.nanjingBundle.getInt("amount")));
-            startActivityForResult(intent, 19);
+            if ( this.nanjingBundle.getString("transName").equals("打印")) {
+                startActivityForResult(intent, 1);
+
+            } else {
+                startActivityForResult(intent, 2);
+            }
         } catch (Exception e) {
             mShow.setText(e.getMessage());
         }
@@ -188,8 +193,11 @@ public class LKLPayActivity extends Activity {
                         }
                         break;
                     case Activity.RESULT_OK:
+                        if (requestCode == 1) {
+                            return
+                        }
                         mShow.setText("支付成功");
-                        LHNToast.sendEventAndDataToRn("nanjingCallback",data.getStringExtra("traceNo"));
+                        LHNToast.sendEventAndDataToRn("nanjingCallback",data.getStringExtra("traceNo"),data.getStringExtra("payChannel"));
                         break;
                     }
                 super.onActivityResult(requestCode, resultCode, data);
