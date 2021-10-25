@@ -138,13 +138,35 @@ class FeeDetailPage extends BasePage {
   componentDidMount(): void {
     this.needPrintListener = DeviceEventEmitter.addListener('needPrint', () => {
       this.onRefresh();
-      this.printInfo(this.state.out_trade_no);
+      const { nanjingRes = {} } = this.state;
+      if (nanjingRes.posType === '南京银行') {
+        NativeModules.LHNToast.startActivityFromJS(
+          'com.statistics.LKLPayActivity',
+          {
+            ...nanjingRes,
+            transName: '打印',
+            scanCodeData: '',
+          },
+        );
+      } else {
+        this.printInfo(this.state.out_trade_no);
+      }
     });
     this.nanjingCallbackListener = DeviceEventEmitter.addListener(
       'nanjingCallback',
       (params) => {
+<<<<<<< HEAD
         //NativeModules.LHNToast.show(JSON.stringify(params || {}), 1000);
         NavigatorService.nanjingNotify(this.state.out_trade_no, params.traceNo);
+=======
+        UDToast.showInfo('发起请求');
+        NavigatorService.nanjingNotify(
+          this.state.out_trade_no,
+          params.traceNo,
+        ).then((res) => {
+          UDToast.showInfo('结束南京请求');
+        });
+>>>>>>> 1185f39e46576be328f7b02821efdad655f37623
       },
     );
 
@@ -219,6 +241,9 @@ class FeeDetailPage extends BasePage {
                 let posType = res.posType;
                 // UDToast.showInfo(posType);
                 if (posType === '南京银行') {
+                  this.setState({
+                    nanjingRes: res,
+                  });
                   NativeModules.LHNToast.startActivityFromJS(
                     'com.statistics.LKLPayActivity',
                     {
@@ -247,7 +272,6 @@ class FeeDetailPage extends BasePage {
           NavigatorService.createOrder(ids, isML, mlType, mlScale).then(
             (res) => {
               let posType = res.posType;
-
               if (posType === '银盛') {
                 if (!this.state.isYse) {
                   // 只有是银盛pos机才能扫码和收款码
@@ -287,6 +311,9 @@ class FeeDetailPage extends BasePage {
                   printAgain: false,
                 });
               } else if (posType === '南京银行') {
+                this.setState({
+                  nanjingRes: res,
+                });
                 this.props.navigation.push('scanForHome', {
                   needBack: true,
                   callBack: (scanCodeData) => {
@@ -353,6 +380,9 @@ class FeeDetailPage extends BasePage {
                   );
                 });
               } else if (posType === '南京银行') {
+                this.setState({
+                  nanjingRes: res,
+                });
                 NativeModules.LHNToast.startActivityFromJS(
                   'com.statistics.LKLPayActivity',
                   {

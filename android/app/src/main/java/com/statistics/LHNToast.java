@@ -188,8 +188,8 @@ public class LHNToast extends ReactContextBaseJavaModule {
                     case "南京银行": {
                         bundle.putInt("amount", order.getInt("amount"));
                         bundle.putString("posType", posType);
-                        bundle.putString("transName", order.getString("transName"));
-                        bundle.putString("scanCodeData", order.getString("scanCodeData"));
+                        bundle.putString("transName", order.getInt("transName"));
+                        bundle.putString("scanCodeData", order.getInt("scanCodeData"));
                         intent.putExtras(bundle);
                         currentActivity.startActivity(intent);
                         break;
