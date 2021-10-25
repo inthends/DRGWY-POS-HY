@@ -155,17 +155,11 @@ class FeeDetailPage extends BasePage {
     this.nanjingCallbackListener = DeviceEventEmitter.addListener(
       'nanjingCallback',
       (params) => {
-        NativeModules.LHNToast.show(
-          this.state.nanjingRes.out_trade_no + ' *** ' + params.traceNo,
-          1000,
-        );
-        NativeModules.LHNToast;
         NavigatorService.nanjingNotify(
           this.state.nanjingRes.out_trade_no,
           params.traceNo,
-        ).then((res) => {
-          NativeModules.LHNToast.show('结束南京请求', 1000);
-        });
+          params.payChannel,
+        );
       },
     );
 
@@ -320,7 +314,7 @@ class FeeDetailPage extends BasePage {
                       'com.statistics.LKLPayActivity',
                       {
                         ...res,
-                        transName: '扫码付被扫',
+                        transName: '二维码主扫',
                         scanCodeData,
                       },
                     );
