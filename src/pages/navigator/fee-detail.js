@@ -157,13 +157,14 @@ class FeeDetailPage extends BasePage {
       (params) => {
         NativeModules.LHNToast.show(
           this.state.nanjingRes.out_trade_no + ' *** ' + params.traceNo,
+          1000,
         );
         NativeModules.LHNToast;
         NavigatorService.nanjingNotify(
           this.state.nanjingRes.out_trade_no,
           params.traceNo,
         ).then((res) => {
-          NativeModules.LHNToast.show('结束南京请求');
+          NativeModules.LHNToast.show('结束南京请求', 1000);
         });
       },
     );
