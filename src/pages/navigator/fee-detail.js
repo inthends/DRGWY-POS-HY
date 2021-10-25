@@ -138,12 +138,30 @@ class FeeDetailPage extends BasePage {
   componentDidMount(): void {
     this.needPrintListener = DeviceEventEmitter.addListener('needPrint', () => {
       this.onRefresh();
-      this.printInfo(this.state.out_trade_no);
+      const { nanjingRes = {} } = this.state;
+      if (nanjingRes.posType === '南京银行') {
+        NativeModules.LHNToast.startActivityFromJS(
+          'com.statistics.LKLPayActivity',
+          {
+            ...nanjingRes,
+            transName: '打印',
+            scanCodeData: '',
+          },
+        );
+      } else {
+        this.printInfo(this.state.out_trade_no);
+      }
     });
     this.nanjingCallbackListener = DeviceEventEmitter.addListener(
       'nanjingCallback',
       (params) => {
-        NavigatorService.nanjingNotify(this.state.out_trade_no, params.traceNo);
+        UDToast.showInfo('发起请求');
+        NavigatorService.nanjingNotify(
+          this.state.out_trade_no,
+          params.traceNo,
+        ).then((res) => {
+          UDToast.showInfo('结束南京请求');
+        });
       },
     );
 
