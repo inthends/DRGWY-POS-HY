@@ -155,18 +155,13 @@ class FeeDetailPage extends BasePage {
     this.nanjingCallbackListener = DeviceEventEmitter.addListener(
       'nanjingCallback',
       (params) => {
-<<<<<<< HEAD
-        //NativeModules.LHNToast.show(JSON.stringify(params || {}), 1000);
-        NavigatorService.nanjingNotify(this.state.out_trade_no, params.traceNo);
-=======
-        UDToast.showInfo('发起请求');
         NavigatorService.nanjingNotify(
-          this.state.out_trade_no,
+          this.state.nanjingRes.out_trade_no,
           params.traceNo,
+          params.payChannel,
         ).then((res) => {
-          UDToast.showInfo('结束南京请求');
+          this.onRefresh();
         });
->>>>>>> 1185f39e46576be328f7b02821efdad655f37623
       },
     );
 
@@ -217,6 +212,17 @@ class FeeDetailPage extends BasePage {
         username: res.userName,
       });
     });
+  };
+
+  nanjingcc = (scanCodeData) => {
+    NativeModules.LHNToast.startActivityFromJS(
+      'com.statistics.LKLPayActivity',
+      {
+        ...res,
+        transName: '二维码被扫',
+        scanCodeData,
+      },
+    );
   };
 
   click = (title) => {
@@ -306,7 +312,6 @@ class FeeDetailPage extends BasePage {
                   isML: isML,
                   mlType: mlType,
                   mlScale: mlScale,
-                  //mlAmount: mlAmount,
                   callBack: this.callBack,
                   printAgain: false,
                 });
@@ -314,17 +319,10 @@ class FeeDetailPage extends BasePage {
                 this.setState({
                   nanjingRes: res,
                 });
-                this.props.navigation.push('scanForHome', {
-                  needBack: true,
-                  callBack: (scanCodeData) => {
-                    NativeModules.LHNToast.startActivityFromJS(
-                      'com.statistics.LKLPayActivity',
-                      {
-                        ...res,
-                        transName: '扫码付被扫',
-                        scanCodeData,
-                      },
-                    );
+                this.props.navigation.push('scanForNanJing', {
+                  data: {
+                    callBack: this.nanjingcc,
+                    needBack: '1',
                   },
                 });
               }
@@ -387,7 +385,7 @@ class FeeDetailPage extends BasePage {
                   'com.statistics.LKLPayActivity',
                   {
                     ...res,
-                    transName: '扫码付主扫',
+                    transName: '二维码主扫',
                     scanCodeData: '',
                   },
                 );
@@ -404,7 +402,6 @@ class FeeDetailPage extends BasePage {
             [
               {
                 text: '取消',
-                //onPress: () => console.log('Cancel Pressed'),
                 style: 'cancel',
               },
               {

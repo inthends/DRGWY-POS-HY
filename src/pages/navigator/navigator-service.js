@@ -246,10 +246,11 @@ export default {
   printInfo(out_trade_no) {
     return api.getData('/api/MobileMethod/MGetPrintInfo', { out_trade_no });
   },
-  nanjingNotify(out_trade_no, traceNo) {
+  nanjingNotify(out_trade_no, traceNo,payChannel) {
     return api.postData('/api/MobileMethod/NJPayNotify', {
       out_trade_no,
       traceNo,
+      payChannel,
       result: true,
     });
   },

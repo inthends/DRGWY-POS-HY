@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
-
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  // Linking,
-  // ScrollView,
   Animated,
   View,
   Easing,
 } from 'react-native';
-
-// import QRCodeScanner from 'react-native-qrcode-scanner';
 import common from '../../utils/common';
-// import NavigatorService from './navigator-service';
 import { Icon } from '@ant-design/react-native';
 import { RNCamera } from 'react-native-camera';
 import Macro from '../../utils/macro';
+import UDToast from '../../utils/UDToast';
 
 export default class ScanOnly extends Component {
   static navigationOptions = ({ navigation }) => {

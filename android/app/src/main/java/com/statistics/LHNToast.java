@@ -188,8 +188,8 @@ public class LHNToast extends ReactContextBaseJavaModule {
                     case "南京银行": {
                         bundle.putInt("amount", order.getInt("amount"));
                         bundle.putString("posType", posType);
-                        bundle.putString("transName", order.getInt("transName"));
-                        bundle.putString("scanCodeData", order.getInt("scanCodeData"));
+                        bundle.putString("transName", order.getString("transName"));
+                        bundle.putString("scanCodeData", order.getString("scanCodeData"));
                         intent.putExtras(bundle);
                         currentActivity.startActivity(intent);
                         break;
@@ -206,9 +206,10 @@ public class LHNToast extends ReactContextBaseJavaModule {
     public static void sendEventToRn(String eventName) {
         myContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, "");
     }
-    public static void sendEventAndDataToRn(String eventName, String traceNo) {
+    public static void sendEventAndDataToRn(String eventName, String traceNo, String payChannel) {
         WritableMap map = Arguments.createMap();
         map.putString("traceNo",traceNo);
+        map.putString("payChannel",payChannel);
         myContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, map);
     }
 
