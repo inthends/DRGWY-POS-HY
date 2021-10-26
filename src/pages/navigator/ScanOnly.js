@@ -11,6 +11,7 @@ import common from '../../utils/common';
 import { Icon } from '@ant-design/react-native';
 import { RNCamera } from 'react-native-camera';
 import Macro from '../../utils/macro';
+import UDToast from '../../utils/UDToast';
 
 export default class ScanOnly extends Component {
   static navigationOptions = ({ navigation }) => {

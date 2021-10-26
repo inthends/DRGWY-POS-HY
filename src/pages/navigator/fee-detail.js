@@ -214,6 +214,17 @@ class FeeDetailPage extends BasePage {
     });
   };
 
+  nanjingcc = (scanCodeData) => {
+    NativeModules.LHNToast.startActivityFromJS(
+      'com.statistics.LKLPayActivity',
+      {
+        ...res,
+        transName: '二维码被扫',
+        scanCodeData,
+      },
+    );
+  };
+
   click = (title) => {
     const items = this.state.dataInfo.data.filter(
       (item) => item.select === true,
@@ -301,7 +312,6 @@ class FeeDetailPage extends BasePage {
                   isML: isML,
                   mlType: mlType,
                   mlScale: mlScale,
-                  //mlAmount: mlAmount,
                   callBack: this.callBack,
                   printAgain: false,
                 });
@@ -309,18 +319,10 @@ class FeeDetailPage extends BasePage {
                 this.setState({
                   nanjingRes: res,
                 });
-                this.props.navigation.push('scanForHome', {
-                  needBack: true,
-                  callBack: (scanCodeData) => {
-                    UDToast.showInfo(scanCodeData);
-                    // NativeModules.LHNToast.startActivityFromJS(
-                    //   'com.statistics.LKLPayActivity',
-                    //   {
-                    //     ...res,
-                    //     transName: '二维码被扫',
-                    //     scanCodeData,
-                    //   },
-                    // );
+                this.props.navigation.push('scanForNanJing', {
+                  data: {
+                    callBack: this.nanjingcc,
+                    needBack: '1',
                   },
                 });
               }

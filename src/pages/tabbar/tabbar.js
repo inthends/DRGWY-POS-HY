@@ -106,7 +106,7 @@ const BuildingNavigator = createStackNavigator(
     //Home: HomePage,
     // yiqing: YiQingPage,
     // yiqinginfo: YiQingInfoPage,
-    scanForHome: ScanOnly,
+    scanForNanJing: ScanOnly,
     //newsList: NewsList,
     scan: ScanScreen,
     charge: FeeChargeDetail,
