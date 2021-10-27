@@ -214,17 +214,6 @@ class FeeDetailPage extends BasePage {
     });
   };
 
-  nanjingcc = (scanCodeData) => {
-    NativeModules.LHNToast.startActivityFromJS(
-      'com.statistics.LKLPayActivity',
-      {
-        ...res,
-        transName: '二维码被扫',
-        scanCodeData,
-      },
-    );
-  };
-
   click = (title) => {
     const items = this.state.dataInfo.data.filter(
       (item) => item.select === true,
@@ -319,9 +308,20 @@ class FeeDetailPage extends BasePage {
                 this.setState({
                   nanjingRes: res,
                 });
-                this.props.navigation.push('scanForNanJing', {
+                this.props.navigation.push('scanForHome', {
                   data: {
-                    callBack: this.nanjingcc,
+                    callBack: (scanCodeData) => {
+                      setTimeout(() => {
+                        NativeModules.LHNToast.startActivityFromJS(
+                          'com.statistics.LKLPayActivity',
+                          {
+                            ...res,
+                            transName: '二维码被扫',
+                            scanCodeData,
+                          },
+                        );
+                      }, 500);
+                    },
                     needBack: '1',
                   },
                 });
@@ -856,8 +856,8 @@ class FeeDetailPage extends BasePage {
                 </Flex>
               </TouchableWithoutFeedback>
 
-              {this.state.isLKL || this.state.isYse ? (
-                //手机都不能刷卡
+              {/* {this.state.isLKL || this.state.isYse ? ( 
+                //手机都不能刷卡*/}
                 <TouchableWithoutFeedback
                   disabled={price == 0 ? true : false}
                   onPress={() => this.click('刷卡')}
@@ -866,7 +866,7 @@ class FeeDetailPage extends BasePage {
                     <Text style={styles.word}>刷卡</Text>
                   </Flex>
                 </TouchableWithoutFeedback>
-              ) : null}
+              {/* ) : null} */}
             </Flex>
           </Flex>
         )}

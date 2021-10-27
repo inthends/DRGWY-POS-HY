@@ -49,9 +49,11 @@ export default class ScanOnly extends Component {
   };
   //  识别二维码
   onBarCodeRead = (result) => {
-    const { data, type } = result;
+    const { data, type } = result || {};
     let callBack = common.getValueFromProps(this.props).callBack;
     let needBack = common.getValueFromProps(this.props).needBack;
+    UDToast.showInfo(data);
+
     if (callBack) {
       callBack(data);
     }
