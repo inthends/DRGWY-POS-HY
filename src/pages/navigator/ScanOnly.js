@@ -6,12 +6,12 @@ import {
   Animated,
   View,
   Easing,
+  InteractionManager,
 } from 'react-native';
 import common from '../../utils/common';
 import { Icon } from '@ant-design/react-native';
 import { RNCamera } from 'react-native-camera';
 import Macro from '../../utils/macro';
-import UDToast from '../../utils/UDToast';
 
 export default class ScanOnly extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -29,69 +29,84 @@ export default class ScanOnly extends Component {
     super(props);
     this.state = {
       moveAnim: new Animated.Value(0),
+      show: true,
     };
   }
 
   componentDidMount() {
-    this.startAnimation();
+    InteractionManager.runAfterInteractions(() => {
+      this.startAnimation();
+    });
     // setTimeout(()=>{
     //     this.onBarCodeRead({data:'0a8a0462-e820-4eb8-b6bf-311f91f6c8e5'})
     // },2000);
   }
+  componentWillUnmount() {
+    this.setState({
+      show: false,
+    });
+  }
 
   startAnimation = () => {
-    this.state.moveAnim.setValue(0);
-    Animated.timing(this.state.moveAnim, {
-      toValue: -200,
-      duration: 1500,
-      easing: Easing.linear,
-    }).start(() => this.startAnimation());
+    if (this.state.show) {
+      this.state.moveAnim.setValue(0);
+      Animated.timing(this.state.moveAnim, {
+        toValue: -200,
+        duration: 1500,
+        easing: Easing.linear,
+      }).start(() => this.startAnimation());
+    }
   };
   //  识别二维码
   onBarCodeRead = (result) => {
     const { data, type } = result || {};
-    let callBack = common.getValueFromProps(this.props).callBack;
-    let needBack = common.getValueFromProps(this.props).needBack;
-    UDToast.showInfo(data);
+    if (this.state.show) {
+      this.state.show = false;
+      const { callBack, needBack } = common.getValueFromProps(this.props) || {};
 
-    if (callBack) {
-      callBack(data);
-    }
-    if (needBack) {
-      this.props.navigation.goBack();
+      if (callBack) {
+        callBack(data);
+      }
+      if (needBack) {
+        this.props.navigation.goBack();
+      }
     }
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <RNCamera
-          ref={(ref) => {
-            this.camera = ref;
-          }}
-          style={styles.preview}
-          type={RNCamera.Constants.Type.back}
-          barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
-          googleVisionBarcodeType={
-            RNCamera.Constants.GoogleVisionBarcodeDetection.BarcodeType.QR_CODE
-          }
-          // flashMode={RNCamera.Constants.FlashMode.on}
-          flashMode={RNCamera.Constants.FlashMode.auto}
-          onBarCodeRead={this.onBarCodeRead}
-        >
-          <View style={styles.rectangleContainer}>
-            <View style={styles.rectangle} />
-            <Animated.View
-              style={[
-                styles.border,
-                { transform: [{ translateY: this.state.moveAnim }] },
-              ]}
-            />
-            <Text style={styles.rectangleText}>
-              将二维码放入框内，即可自动扫描
-            </Text>
-          </View>
-        </RNCamera>
+        {this.state.show ? (
+          <RNCamera
+            ref={(ref) => {
+              this.camera = ref;
+            }}
+            style={styles.preview}
+            type={RNCamera.Constants.Type.back}
+            barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
+            googleVisionBarcodeType={
+              RNCamera.Constants.GoogleVisionBarcodeDetection.BarcodeType
+                .QR_CODE
+            }
+            flashMode={RNCamera.Constants.FlashMode.auto}
+            onBarCodeRead={this.onBarCodeRead}
+          >
+            <View style={styles.rectangleContainer}>
+              <View style={styles.rectangle} />
+              <Animated.View
+                style={[
+                  styles.border,
+                  { transform: [{ translateY: this.state.moveAnim }] },
+                ]}
+              />
+              <Text style={styles.rectangleText}>
+                将二维码放入框内，即可自动扫描
+              </Text>
+            </View>
+          </RNCamera>
+        ) : (
+          <View></View>
+        )}
       </View>
     );
   }

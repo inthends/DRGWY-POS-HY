@@ -320,7 +320,7 @@ class FeeDetailPage extends BasePage {
                             scanCodeData,
                           },
                         );
-                      }, 500);
+                      }, 2000);
                     },
                     needBack: '1',
                   },
@@ -856,8 +856,8 @@ class FeeDetailPage extends BasePage {
                 </Flex>
               </TouchableWithoutFeedback>
 
-              {/* {this.state.isLKL || this.state.isYse ? ( 
-                //手机都不能刷卡*/}
+              {this.state.isLKL || this.state.isYse ? (
+                //手机都不能刷卡
                 <TouchableWithoutFeedback
                   disabled={price == 0 ? true : false}
                   onPress={() => this.click('刷卡')}
@@ -866,7 +866,7 @@ class FeeDetailPage extends BasePage {
                     <Text style={styles.word}>刷卡</Text>
                   </Flex>
                 </TouchableWithoutFeedback>
-              {/* ) : null} */}
+              ) : null}
             </Flex>
           </Flex>
         )}
