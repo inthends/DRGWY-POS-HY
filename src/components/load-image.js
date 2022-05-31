@@ -14,27 +14,28 @@ export default class LoadImage extends Component {
     };
 
     componentWillReceiveProps(nextProps, nextContext) {
-        // console.log('nextProps', nextProps);
-        if (nextProps.img !== this.state.img) {
-            const state = this._handleImg(nextProps);
-            this.setState({...state});
-        }
+        // if (nextProps.img !== this.state.img) {
+        //     const state = this._handleImg(nextProps);
+        //     this.setState({...state});
+        // }
+        //需要时刻更新
+        const state = this._handleImg(nextProps);
+        this.setState({...state});
     }
 
     _handleImg = (props) => {
-        let {img, defaultImg, style} = props; 
-
+        let {img, defaultImg, style} = props;  
         if (img) {
-            console.log('img', img);
+            //console.log('img', img);
             if (typeof (img) === 'string') {
                 return {
                     img: {uri: img},
                     defaultImg,
-                    style,
+                    style
                 };
             } else {
                 return {
-                    img, defaultImg, style,
+                    img, defaultImg, style
                 };
             }
 
@@ -43,7 +44,7 @@ export default class LoadImage extends Component {
             return {
                 img,
                 defaultImg,
-                style,
+                style
             };
         }
     };
@@ -54,5 +55,4 @@ export default class LoadImage extends Component {
             <Image style={style} source={img} onError={this._loadError}/>
         );
     }
-
 }

@@ -39,6 +39,11 @@ export default {
     });
   },
 
+  //获取系统参数
+  getSettingInfo() {
+    return api.getData('/api/MobileMethod/MGetSettingInfo');
+  },
+
   //账单
   getBillList(type, id, isShow, pageIndex, pageSize = 10) {
     let url = '/api/MobileMethod/MGetNotChargeBillList';
@@ -218,8 +223,14 @@ export default {
     );
   },
 
+  //威富通收款码
   qrcodePay(tbout_trade_no) {
     return api.postData('/api/MobileMethod/WFTPay', { tbout_trade_no });
+  },
+
+  //兴生活小程序二维码
+  qrcodePayCIB(unitId) {
+    return api.postData('/api/MobileMethod/CIBQrCode', { unitId });
   },
 
   //现金收款

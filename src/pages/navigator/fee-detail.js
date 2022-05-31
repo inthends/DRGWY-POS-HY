@@ -92,9 +92,8 @@ class FeeDetailPage extends BasePage {
     this.props.navigation.setParams({
       addFee: this.addFee,
     });
-    let room = common.getValueFromProps(this.props) || { id: 'FY-XHF-01-0101' };
-    // let room = common.getValueFromProps(this.props);
-    //console.log('room123', room);
+    let room = common.getValueFromProps(this.props);// || { id: 'FY-XHF-01-0101' };
+    // let room = common.getValueFromProps(this.props); 
     this.state = {
       room,
       pageIndex: 1,
@@ -118,7 +117,7 @@ class FeeDetailPage extends BasePage {
       action: true,
       selected: '',
       chaifeiAlert: false,
-      showPicker: false,
+      showPicker: false
     };
     Date.prototype.getYearAndMonthAndDay = function () {
       let year = this.getFullYear();
@@ -191,12 +190,13 @@ class FeeDetailPage extends BasePage {
       NativeModules.LHNToast.getPOSType((isLKL, isYse) => {
         this.setState({
           isLKL: isLKL,
-          isYse: isYse,
+          isYse: isYse
         });
       });
-    } else {
-      //方法待实现
     }
+    // else {
+    //   //方法待实现
+    // }
   }
 
   componentWillUnmount(): void {
@@ -204,7 +204,6 @@ class FeeDetailPage extends BasePage {
     this.needPrintListener.remove();
     this.nanjingCallbackListener.remove();
   }
-
   callBack = (out_trade_no) => {
     NavigatorService.printInfo(out_trade_no).then((res) => {
       NativeModules.LHNToast.printTicket({
@@ -222,7 +221,7 @@ class FeeDetailPage extends BasePage {
       UDToast.showError('请选择');
     } else {
       let ids = JSON.stringify(items.map((item) => item.id));
-      const { isML, mlType, mlScale } = this.state;
+      const { isML, mlType, mlScale, room } = this.state;
       switch (title) {
         case '刷卡': {
           if (common.isIOS()) {
@@ -318,18 +317,19 @@ class FeeDetailPage extends BasePage {
                             ...res,
                             transName: '二维码被扫',
                             scanCodeData,
-                          },
+                          }
                         );
                       }, 2000);
                     },
-                    needBack: '1',
-                  },
+                    needBack: '1'
+                  }
                 });
               }
             },
           );
           break;
         }
+
         case '收款码': {
           NavigatorService.createOrder(ids, isML, mlType, mlScale).then(
             (res) => {
@@ -421,6 +421,24 @@ class FeeDetailPage extends BasePage {
     }
   };
 
+  //兴生活缴费
+  clickCIB = () => {
+    const { room } = this.state;
+    NavigatorService.qrcodePayCIB(room.id).then((code) => {
+      this.setState(
+        {
+          visible: true,
+          cancel: false,
+          code,
+          needPrint: false,
+          printAgain: false
+        }
+      );
+    });
+  }
+
+
+
   cashPay = (ids, isML, mlType, mlScale) => {
     NavigatorService.cashPay(ids, isML, mlType, mlScale).then((res) => {
       if (this.state.isLKL || this.state.isYse) {
@@ -437,18 +455,22 @@ class FeeDetailPage extends BasePage {
   };
 
   onRefresh = () => {
+    //获取参数，根据是否兴生活缴费来加载按钮
+    NavigatorService.getSettingInfo().then((res) => {
+      this.setState({ isCIBLife: res });
+    });
+
     const { pageIndex, type, room, isShow } = this.state;
-    NavigatorService.getBillList(type, room.id, isShow, pageIndex, 1000).then(
-      (dataInfo) => {
-        this.setState(
-          {
-            dataInfo: dataInfo,
-          },
-          () => {
-            // console.log(this.state);
-          },
-        );
-      },
+    NavigatorService.getBillList(type, room.id, isShow, pageIndex, 1000).then((dataInfo) => {
+      this.setState(
+        {
+          dataInfo: dataInfo,
+        },
+        () => {
+          // console.log(this.state);
+        }
+      );
+    }
     );
   };
 
@@ -573,7 +595,7 @@ class FeeDetailPage extends BasePage {
       [
         {
           text: '取消',
-          onPress: () => {},
+          onPress: () => { },
           style: 'cancel',
         },
         {
@@ -822,15 +844,14 @@ class FeeDetailPage extends BasePage {
                 ¥{price}
               </Text>
             </Flex>
+
             <Flex style={{ minHeight: 40 }}>
               <TouchableWithoutFeedback
                 disabled={price == 0 ? true : false}
-                onPress={() => this.click('扫码')}
-              >
+                onPress={() => this.click('扫码')} >
                 <Flex
                   justify={'center'}
-                  style={[styles.ii, { backgroundColor: Macro.color_4d8fcc }]}
-                >
+                  style={[styles.ii, { backgroundColor: Macro.color_4d8fcc }]} >
                   <Text style={styles.word}>扫码</Text>
                 </Flex>
               </TouchableWithoutFeedback>
@@ -856,8 +877,18 @@ class FeeDetailPage extends BasePage {
                 </Flex>
               </TouchableWithoutFeedback>
 
+              {this.state.isCIBLife ?
+                <TouchableWithoutFeedback onPress={() => this.clickCIB()}>
+                  <Flex
+                    justify={'center'}
+                    style={[styles.ii, { backgroundColor: '#4494f0' }]}
+                  >
+                    <Text style={styles.word}>兴生活</Text>
+                  </Flex>
+                </TouchableWithoutFeedback> : null}
+
               {this.state.isLKL || this.state.isYse ? (
-                //手机都不能刷卡
+                //手机不能刷卡
                 <TouchableWithoutFeedback
                   disabled={price == 0 ? true : false}
                   onPress={() => this.click('刷卡')}
@@ -867,6 +898,7 @@ class FeeDetailPage extends BasePage {
                   </Flex>
                 </TouchableWithoutFeedback>
               ) : null}
+
             </Flex>
           </Flex>
         )}
@@ -944,11 +976,11 @@ class FeeDetailPage extends BasePage {
 
         {this.state.showPicker && (
           <TouchableWithoutFeedback
-            onPress={() => {
-              // this.setState({
-              //     showPicker: false,
-              // })
-            }}
+          // onPress={() => {
+          //   // this.setState({
+          //   //     showPicker: false,
+          //   // })
+          // }}
           >
             <View style={styles.pp}>
               <DatePickerView
@@ -959,8 +991,7 @@ class FeeDetailPage extends BasePage {
                 minDate={new Date(this.state.selectItem.beginDate)}
                 maxDate={
                   new Date(
-                    new Date(this.state.selectItem.endDate).getTime() -
-                      24 * 60 * 60 * 1000,
+                    new Date(this.state.selectItem.endDate).getTime() - 24 * 60 * 60 * 1000,
                   )
                 }
               />

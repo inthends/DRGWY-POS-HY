@@ -99,13 +99,11 @@ def enableProguardInReleaseBuilds = false
 // }
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-
+    compileSdkVersion rootProject.ext.compileSdkVersion 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
+    } 
     flavorDimensions "default"
     productFlavors {
             // main
@@ -135,7 +133,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "3.0.0"
+        versionName "4.0.0"
         missingDimensionStrategy 'react-native-camera', 'general'
 //         manifestPlaceholders = [
 //                 JPUSH_APPKEY : "996f9f0191243d335f473952",         //在此替换你的APPKey

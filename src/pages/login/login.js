@@ -69,21 +69,18 @@ class LoginPage extends BasePage {
                 // console.log('re', result);
                 // this.setState({
                 //     registration_id: result.registerID,
-                // });
-
+                // }); 
                 LoginService.getServiceUrl(usercode).then(res => {
-                    this.props.saveUrl(res);
+                    this.props.saveUrl(res); 
                     LoginService.login(username, password, result.registerID).then(res => {
                         //console.log(1, res);
                         this.props.saveNameAndPsd({...this.state});
-                        this.props.saveToken(res);
+                        this.props.saveToken(res); 
                     }).catch(error => {
                         //console.log(error);
                     });
-                }).catch(err => {
-
-                });
-            },
+                }).catch(err => {});
+            }
         ); 
     };
 
