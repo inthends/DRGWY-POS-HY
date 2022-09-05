@@ -6,18 +6,21 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import AppContainer from './src/pages/tabbar/tabbar';
-import {Provider} from '@ant-design/react-native';
-import {Provider as Pro} from 'react-redux';
+import React, { Component } from 'react';
+// import AppContainer from './src/pages/tabbar/tabbar';
+import { Provider } from '@ant-design/react-native';
+import { Provider as Pro } from 'react-redux';
 import store from './src/utils/store/store';
 import AppRouter from './router';
-import {PersistGate} from 'redux-persist/lib/integration/react';
-import {persistor} from './src/utils/store/store';
-import JPush from 'jpush-react-native';
-import {Alert, DeviceEventEmitter} from 'react-native';
-import UDAlert from './src/utils/UDAlert';
-import NavigatorService from './src/pages/navigator/navigator-service';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import { persistor } from './src/utils/store/store';
+// import JPush from 'jpush-react-native';
+import {
+    //Alert, 
+    DeviceEventEmitter
+} from 'react-native';
+// import UDAlert from './src/utils/UDAlert';
+// import NavigatorService from './src/pages/navigator/navigator-service';
 
 
 type Props = {};
@@ -34,7 +37,11 @@ class App extends Component<Props> {
     }
 
     componentDidMount() {
-        JPush.init();
+
+
+        //pos版本，取消工单消息极光推送 2022年7月14日
+
+        /*JPush.init();
 
         //连接状态
         this.connectListener = result => {
@@ -90,11 +97,8 @@ class App extends Component<Props> {
         // JPush.getRegistrationID(res => {
         //     alert(JSON.stringify(res));
         // });
-
-
-        JPush.setLoggerEnable(true);
-
-
+ 
+        JPush.setLoggerEnable(true);*/
     }
 
 
@@ -103,7 +107,7 @@ class App extends Component<Props> {
             <Pro store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <Provider>
-                        <AppRouter/>
+                        <AppRouter />
                     </Provider>
                 </PersistGate>
             </Pro>

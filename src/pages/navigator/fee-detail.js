@@ -436,9 +436,7 @@ class FeeDetailPage extends BasePage {
       );
     });
   }
-
-
-
+ 
   cashPay = (ids, isML, mlType, mlScale) => {
     NavigatorService.cashPay(ids, isML, mlType, mlScale).then((res) => {
       if (this.state.isLKL || this.state.isYse) {

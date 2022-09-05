@@ -1,5 +1,4 @@
 package com.statistics;
-
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -86,7 +85,6 @@ public class LKLPayActivity extends Activity {
 
     public String changeY2F(String amount) {
         StringTokenizer stringTokenizer = new StringTokenizer(amount, ".");
-
         return stringTokenizer.nextToken();
     }
 
@@ -109,7 +107,7 @@ public class LKLPayActivity extends Activity {
     }
 
 
-    // 南京
+    //南京
     public void nanjingPay() {
         try {
             Intent intent = new Intent(); 
@@ -127,7 +125,6 @@ public class LKLPayActivity extends Activity {
             mShow.setText(e.getMessage());
         }
     }
-
 
     public Intent setComponent() {
         ComponentName component = new ComponentName("com.lkl.cloudpos.payment", "com.lkl.cloudpos.payment.activity.MainMenuActivity");
@@ -169,7 +166,6 @@ public class LKLPayActivity extends Activity {
                         }
                         break;
                     default:
-
                         break;
                 }
 
@@ -184,7 +180,8 @@ public class LKLPayActivity extends Activity {
                         mShow.setText("支付失败");
                         break;
                 }
-            } else if (nanjingBundle != null) {
+            } 
+            else if (nanjingBundle != null) {
                 switch(resultCode) {
                     case Activity.RESULT_CANCELED:
                         String reason = data.getStringExtra("reason");
@@ -210,7 +207,5 @@ public class LKLPayActivity extends Activity {
             mShow.setText(e.getMessage());
             e.printStackTrace();
         }
-
-
     }
 }

@@ -113,8 +113,8 @@ export default class ScanScreen extends Component {
 
     needQuery(res) {
         let callBack = common.getValueFromProps(this.props, 'callBack');
-        let count = this.state.count || 7; 
-        if (count === 7) {
+        let count = this.state.count || 11; 
+        if (count === 11) {
             this.showLoadingNumber = UDToast.showLoading('正在查询支付结果，请稍后...');
         }
         this.setState({
